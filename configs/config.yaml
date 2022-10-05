@@ -1,0 +1,23 @@
+data:
+  train_path: ''
+  test_path: ''
+  batch_size: 16
+
+train:
+  epochs: 40
+  lr: 1e-3
+  validation_split: 0.1
+  # Balance training data for equal class sizes. 0: Oversample, 1: Prune, 2: None
+  balance_mode: 0
+
+model:
+   # Criteria to save best model. 0: Min val loss. 1: Max F1 score
+  save_mode: 1
+  save_path: ''
+  # Train new model or work with existing model
+  load_train: False
+  # Path for training or testing existing model
+  load_path: ''
+  # 0: Train. 1: Test
+  model_mode: 0
+  num_outputs: 100
