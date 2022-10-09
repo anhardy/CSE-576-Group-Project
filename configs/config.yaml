@@ -1,10 +1,12 @@
 data:
-  train_path: ''
+  train_path: 'data/pickled_data.pkl'
   test_path: ''
   batch_size: 16
+  # Tokenizing large amounts of data takes time. Save if you want
+  pickle_data: True
 
 train:
-  epochs: 40
+  epochs: 4
   lr: 1e-3
   validation_split: 0.1
   # Balance training data for equal class sizes. 0: Oversample, 1: Prune, 2: None
@@ -13,7 +15,7 @@ train:
 model:
    # Criteria to save best model. 0: Min val loss. 1: Max F1 score
   save_mode: 1
-  save_path: ''
+  save_path: 'model/m_state_dict_v0.pt'
   # Train new model or work with existing model
   load_train: False
   # Path for training or testing existing model

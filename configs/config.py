@@ -8,9 +8,10 @@ class Config:
         self.train_path = config['data']['train_path']
         self.test_path = config['data']['test_path']
         self.batch_size = config['data']['batch_size']
+        self.pickle_data = config['data']['pickle_data']
 
         self.epochs = config['train']['epochs']
-        self.lr = config['train']['lr']
+        self.lr = float(config['train']['lr'])
         self.validation_split = config['train']['validation_split']
         self.balance_mode = config['train']['balance_mode']
 
