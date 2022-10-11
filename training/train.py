@@ -95,6 +95,8 @@ def train(config):
         val_f1, val_loss = validate(model, validation_dataloader, device)
 
         # Best model criteria
+        print("f1: " + str(val_f1))
+        print("max f1: " + str(max_f1))
         if val_f1 > max_f1:
             max_f1 = val_f1
             if config.save_mode == 1:

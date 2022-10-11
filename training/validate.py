@@ -36,4 +36,4 @@ def validate(model, dataloader, device):
     # validation_time = format_time(time.time() - t0)
 
     print("  Validation Loss: {0:.2f}".format(avg_val_loss))
-    return avg_val_loss, f1
+    return f1, avg_val_loss

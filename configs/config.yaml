@@ -6,8 +6,8 @@ data:
   pickle_data: True
 
 train:
-  epochs: 4
-  lr: 1e-3
+  epochs: 25
+  lr: 1e-5
   validation_split: 0.1
   # Balance training data for equal class sizes. 0: Oversample, 1: Prune, 2: None
   balance_mode: 0
