@@ -1,6 +1,6 @@
 data:
-  train_path: 'data/pickled_data.pkl'
-  test_path: ''
+  train_path: 'data/pickled_data_train.pkl'
+  test_path: 'data/test_split.xlsx'
   batch_size: 16
   # Tokenizing large amounts of data takes time. Save if you want
   pickle_data: True
