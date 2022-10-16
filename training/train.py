@@ -2,7 +2,6 @@ import datetime
 import time
 
 import torch
-from torch import nn
 from torch.utils.data import random_split, DataLoader, RandomSampler, SequentialSampler
 
 from transformers import BertTokenizer, BertForSequenceClassification
@@ -26,7 +25,6 @@ def train(config):
     # loss_fcn = nn.CrossEntropyLoss
     model = BertForSequenceClassification.from_pretrained('bert-base-uncased', num_labels=config.num_outputs)
     if config.load_train is True:
-        # TODO unsure if can load state dict this way with bert model
         model.load_state_dict(torch.load(config.load_path))
     model.to(device)
 

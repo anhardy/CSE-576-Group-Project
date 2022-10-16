@@ -1,6 +1,6 @@
 data:
   train_path: 'data/pickled_data_train.pkl'
-  test_path: 'data/test_split.xlsx'
+  test_path: 'data/pickled_data_test.pkl'
   batch_size: 16
   # Tokenizing large amounts of data takes time. Save if you want
   pickle_data: True
@@ -15,11 +15,11 @@ train:
 model:
    # Criteria to save best model. 0: Min val loss. 1: Max F1 score
   save_mode: 1
-  save_path: 'model/m_state_dict_v0.pt'
+  save_path: 'model/m_saved_state_dict.pt'
   # Train new model or work with existing model
   load_train: False
   # Path for training or testing existing model
-  load_path: ''
+  load_path: 'model/m_state_dict_v0.pt'
   # 0: Train. 1: Test
-  model_mode: 0
+  model_mode: 1
   num_outputs: 100
