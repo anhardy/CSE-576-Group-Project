@@ -14,8 +14,9 @@ else:
 
 def test(config):
     model = BertForSequenceClassification.from_pretrained('bert-base-uncased', num_labels=config.num_outputs)
-    model.load_state_dict(torch.load(config.load_path))
+    model.load_state_dict(torch.load(config.load_path), map_location=torch.device(device))
     model.to(device)
+    model.eval()
 
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 

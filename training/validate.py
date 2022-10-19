@@ -4,6 +4,7 @@ from sklearn.metrics import classification_report, f1_score
 
 
 def validate(model, dataloader, device):
+    model.eval()
     total_eval_loss = 0
     pred = []
     truth = []

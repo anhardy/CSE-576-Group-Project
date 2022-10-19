@@ -20,6 +20,6 @@ model:
   load_train: False
   # Path for training or testing existing model
   load_path: 'model/m_state_dict_v0.pt'
-  # 0: Train. 1: Test
-  model_mode: 1
+  # 0: Train. 1: Test, 2: Get embeddings
+  model_mode: 2
   num_outputs: 100

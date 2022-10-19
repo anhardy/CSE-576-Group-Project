@@ -89,7 +89,6 @@ def train(config):
         print("  Training epoch took: {:}".format(training_time))
 
         # Validation step
-        model.eval()
         val_f1, val_loss = validate(model, validation_dataloader, device)
 
         # Best model criteria

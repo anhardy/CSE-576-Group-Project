@@ -1,5 +1,6 @@
 import os.path
 
+from PMAL.get_embeddings import get_embeddings
 from configs.config import Config
 from testing.test import test
 from training.train import train
@@ -14,6 +15,11 @@ def main():
 
     elif config.mode == 1:
         test(config)
+
+    elif config.mode == 2:
+        get_embeddings(config)
+
+
 
 
 if __name__ == '__main__':
