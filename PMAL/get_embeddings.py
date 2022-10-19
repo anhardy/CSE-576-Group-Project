@@ -57,7 +57,7 @@ def test(model, dataloader, device):
         loss = result.loss
         logits = result.logits
         # Retrieve embedding of classification token (first token in sequence)
-        embedding = result.hidden_states[12][:, 0]
+        embedding = result.hidden_states[12][:, 0].detach().cpu().numpy()
         embeddings.append(embedding)
 
         total_eval_loss += loss.item()
