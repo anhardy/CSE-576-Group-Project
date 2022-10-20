@@ -35,7 +35,7 @@ def calculate_distances(embedding_path):
         with open('../data/PMAL/distances/model_0/distances_class_' + str(val) + '.npy', 'wb') as f:
             numpy.save(f, distance)
         with open('../data/PMAL/PCA/pca_class_' + str(val) + '.pkl', 'wb') as f:
-            numpy.save(f, distance)
+            numpy.save(f, pca)
 
         print("Class " + str(val) + " distances calculated.")
 
