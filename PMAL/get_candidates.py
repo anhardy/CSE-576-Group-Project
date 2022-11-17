@@ -27,14 +27,16 @@ def calc_robustness():
             r_scores.append(r_score)
 
         max_r = max(r_scores)
+        print("Max Robustness Score: " + str(max_r))
         for i, r_score in enumerate(r_scores):
             if r_score > 0.8 * max_r:
                 candidates.append(i)
                 candidate_scores.append(r_score)
+        print("Num candidates: " + str(len(candidates)))
         with open('../data/PMAL/candidates/indices/indices_class_' + str(val) + '.npy', 'wb') as f:
-            numpy.save(f, candidates)
+            numpy.save(f, numpy.array(candidates))
         with open('../data/PMAL/candidates/scores/scores_class_' + str(val) + '.npy', 'wb') as f:
-            numpy.save(f, candidate_scores)
+            numpy.save(f, numpy.array(candidate_scores))
     return
 
 

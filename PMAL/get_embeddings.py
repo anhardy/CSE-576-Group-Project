@@ -32,7 +32,7 @@ def get_embeddings(config):
 
     embeddings = test(model, test_dataloader, device)
 
-    with open('data/PMAL/embeddings_model_1.npy', 'wb') as f:
+    with open('data/embeddings/test/test_embeddings.npy', 'wb') as f:
         numpy.save(f, embeddings)
 
     return

@@ -14,11 +14,13 @@ def main():
         train(config)
 
     elif config.mode == 1:
-        test(config)
+        test(config, False)
 
     elif config.mode == 2:
         get_embeddings(config)
 
+    elif config.mode == 3:
+        test(config, True)
 
 
 
