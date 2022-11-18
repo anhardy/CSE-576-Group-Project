@@ -123,21 +123,24 @@ def calculate_distances_all_numpy():
     distances_2 = numpy.zeros([split_pca.shape[0], split_pca.shape[0]])
     for i in tqdm.tqdm(range(split_pca.shape[0])):
         for j in range(i, split_pca.shape[0]):
-            distance = (split_pca[0] - split_pca[1]).dot(IV).dot(split_pca[0] - split_pca[1]).T
-            distances[i, j] = numpy.sqrt(distance)
+            distance = numpy.sqrt((split_pca[0] - split_pca[1]).dot(IV).dot(split_pca[0] - split_pca[1]).T)
+            distances[i, j] = distance
+            distances[j, i] = distance
 
-            distance_2 = (split_pca_2[0] - split_pca_2[1]).dot(IV_2).dot(split_pca_2[0] - split_pca_2[1]).T
-            distances_2[i, j] = numpy.sqrt(distance_2)
+            # distance_2 = numpy.sqrt((split_pca_2[0] - split_pca_2[1]).dot(IV_2).dot(split_pca_2[0] - split_pca_2[1]).T)
+            # distances_2[i, j] = distance_2
+            # distances_2[j, i] = distance_2
 
     with open('../data/PMAL/distances/model_0/distances_all.npy', 'wb') as f:
         numpy.save(f, distances)
 
-    with open('../data/PMAL/distances/model_1/distances_all.npy', 'wb') as f:
-        numpy.save(f, distances_2)
+    # with open('../data/PMAL/distances/model_1/distances_all.npy', 'wb') as f:
+    #     numpy.save(f, distances_2)
 
 
 # Computes pairwise distances for entire dataset using tensors and GPU. Significantly faster when using larger
-#   feature sizes but will still take a long time
+#   feature sizes but will still take a long time. Should not be used for small embedding feature sizes as it
+#   will diminish performance compared to CPU operations.
 def calculate_distances_all_torch():
     with open(embedding_path, 'rb') as f:
         embeddings = numpy.load(f)
@@ -181,4 +184,6 @@ def calculate_distances_all_torch():
         numpy.save(f, distances_2.detach().cpu().numpy())
 
 
-calculate_distances_all_torch()
+# calculate_distances_all_torch()
+calculate_distances_all_numpy()
+
