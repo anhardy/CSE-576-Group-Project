@@ -103,8 +103,8 @@ def calculate_distances_all_numpy():
     with open(embedding_path, 'rb') as f:
         embeddings = numpy.load(f)
 
-    with open(embedding_path_2, 'rb') as f:
-        embeddings_2 = numpy.load(f)
+    # with open(embedding_path_2, 'rb') as f:
+    #     embeddings_2 = numpy.load(f)
 
     pca = decomposition.PCA(10)
     split_pca = pca.fit_transform(embeddings)
@@ -113,21 +113,21 @@ def calculate_distances_all_numpy():
     print("COV computed")
     IV = numpy.linalg.matrix_power(IV, -1)
     print("IV computed")
-    split_pca_2 = pca.fit_transform(embeddings_2)
-    print("PCA 2 computed")
-    IV_2 = numpy.cov(split_pca_2, rowvar=False)
-    print("COV 2 computed")
-    IV_2 = numpy.linalg.matrix_power(IV_2, -1)
-    print("IV 2 computed")
+    # split_pca_2 = pca.fit_transform(embeddings_2)
+    # print("PCA 2 computed")
+    # IV_2 = numpy.cov(split_pca_2, rowvar=False)
+    # print("COV 2 computed")
+    # IV_2 = numpy.linalg.matrix_power(IV_2, -1)
+    # print("IV 2 computed")
     distances = numpy.zeros([split_pca.shape[0], split_pca.shape[0]])
-    distances_2 = numpy.zeros([split_pca.shape[0], split_pca.shape[0]])
+    # distances_2 = numpy.zeros([split_pca_2.shape[0], split_pca_2.shape[0]])
     for i in tqdm.tqdm(range(split_pca.shape[0])):
         for j in range(i, split_pca.shape[0]):
-            distance = numpy.sqrt((split_pca[0] - split_pca[1]).dot(IV).dot(split_pca[0] - split_pca[1]).T)
+            distance = numpy.sqrt((split_pca[i] - split_pca[j]).dot(IV).dot(split_pca[i] - split_pca[j]).T)
             distances[i, j] = distance
             distances[j, i] = distance
 
-            # distance_2 = numpy.sqrt((split_pca_2[0] - split_pca_2[1]).dot(IV_2).dot(split_pca_2[0] - split_pca_2[1]).T)
+            # distance_2 = numpy.sqrt((split_pca_2[i] - split_pca_2[j]).dot(IV_2).dot(split_pca_2[i] - split_pca_2[j]).T)
             # distances_2[i, j] = distance_2
             # distances_2[j, i] = distance_2
 
@@ -167,13 +167,13 @@ def calculate_distances_all_torch():
         for j in range(i, split_pca.size()[0]):
             diff = split_pca[i] - split_pca[j]
             distance = torch.sqrt(torch.dot(diff, torch.matmul(IV, diff)))
-            # distance = (split_pca[0] - split_pca[1]).dot(IV).dot(split_pca[0]-split_pca[1]).T
+            # distance = (split_pca[i] - split_pca[j]).dot(IV).dot(split_pca[i]-split_pca[j]).T
             distances[i, j] = distance
             distances[j, i] = distance
 
             diff = split_pca_2[i] - split_pca_2[j]
             distance_2 = torch.sqrt(torch.dot(diff, torch.matmul(IV_2, diff)))
-            # distance_2 = (split_pca_2[0] - split_pca_2[1]).dot(IV_2).dot(split_pca_2[0]-split_pca_2[1]).T
+            # distance_2 = (split_pca_2[i] - split_pca_2[j]).dot(IV_2).dot(split_pca_2[i]-split_pca_2[j]).T
             distances_2[i, j] = distance_2
             distances_2[j, i] = distance_2
 
