@@ -9,7 +9,6 @@ from training.train import train
 def main():
     config_path = os.path.join(os.getcwd(), 'configs', 'config.yaml')
     config = Config(config_path)
-
     if config.mode == 0:
         train(config)
 
@@ -21,7 +20,6 @@ def main():
 
     elif config.mode == 3:
         test(config, True)
-
 
 
 if __name__ == '__main__':

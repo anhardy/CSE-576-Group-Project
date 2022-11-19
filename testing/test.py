@@ -14,7 +14,7 @@ else:
 
 def test(config, OOD):
     model = BertForSequenceClassification.from_pretrained('bert-base-uncased', num_labels=config.num_outputs)
-    model.load_state_dict(torch.load(config.load_path), map_location=torch.device(device))
+    model.load_state_dict(torch.load(config.load_path, map_location=device))
     model.to(device)
     model.eval()
 
@@ -29,6 +29,7 @@ def test(config, OOD):
     )
 
     if OOD:
-        test_f1, test_loss = test_ood(model, test_dataloader, device, dataset)
+        train_set = dataset = load(config.train_path, tokenizer, config.pickle_data, True)
+        test_f1, test_loss = test_ood(model, test_dataloader, device, dataset, train_set)
     else:
         test_f1, test_loss = validate(model, test_dataloader, device)

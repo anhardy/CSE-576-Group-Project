@@ -6,6 +6,7 @@ from torch.utils.data import random_split, DataLoader, RandomSampler, Sequential
 
 from transformers import BertTokenizer, BertForSequenceClassification
 
+from PMAL.load_candidates import load_candidates
 from data.load import load
 from training.validate import validate
 
@@ -35,7 +36,7 @@ def train(config):
 
     dataset = load(config.train_path, tokenizer, config.pickle_data)
 
-    # TODO class balancing if needed.
+    candidate_embeddings = load_candidates('data/embeddings/train/train_embeddings.npy', dataset)
 
     train_size = int((1 - config.validation_split) * len(dataset))
     val_size = len(dataset) - train_size

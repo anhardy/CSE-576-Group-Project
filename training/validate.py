@@ -2,6 +2,7 @@ import numpy
 import torch
 from sklearn.metrics import classification_report, f1_score
 from PMAL.loss import reject
+from torch.nn.functional import softmax
 
 from PMAL.load_candidates import load_candidates
 
@@ -43,8 +44,8 @@ def validate(model, dataloader, device):
     return f1, avg_val_loss
 
 
-def test_ood(model, dataloader, device, dataset):
-    candidate_embeddings = load_candidates('data/embeddings/train/test_embeddings.npy', dataset)
+def test_ood(model, dataloader, device, dataset, train_set):
+    candidate_embeddings = load_candidates('data/embeddings/train/train_embeddings.npy', train_set)
     model.eval()
     total_eval_loss = 0
     pred = []
@@ -56,7 +57,9 @@ def test_ood(model, dataloader, device, dataset):
         b_input_mask = batch[1].to(device)
         b_labels = batch[2].to(device)
         with torch.no_grad():
-            result = model(b_input_ids, attention_mask=b_input_mask, labels=b_labels, return_dict=True)
+            result = model(b_input_ids, attention_mask=b_input_mask, labels=b_labels, return_dict=True,
+                           output_hidden_states=True)
+        embedding = result.hidden_states[12][:, 0].detach().cpu().numpy()
 
         loss = result.loss
         logits = result.logits
@@ -64,6 +67,18 @@ def test_ood(model, dataloader, device, dataset):
         total_eval_loss += loss.item()
 
         prediction = logits.detach().cpu().numpy().argmax(1)
+        classes = numpy.unique(prediction)
+        prob = softmax(logits).detach().cpu().numpy().max(1)
+        for pred_class in classes:
+            # TODO get embeddings of test samples that predicted this class
+            samples = embedding[numpy.where(prediction==pred_class)]
+            pred_set = prediction[numpy.where(prediction==pred_class)]
+            prob_set = prob[numpy.where(prediction==pred_class)]
+            candidate_set = candidate_embeddings[pred_class]
+            new_pred_set = reject(samples, pred_set, candidate_set, 5, prob_set, 0.5, 0.5)
+        # sample = numpy.expand_dims(embedding[0], 1)
+        # pred = reject(sample, prediction, candidate_embeddings[pred], 2, prob, 5, 0.5)
+
         label_ids = b_labels.to('cpu').numpy()
 
         pred.append(prediction)
