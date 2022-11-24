@@ -19,7 +19,7 @@ model:
   # Train new model or work with existing model
   load_train: False
   # Path for training or testing existing model
-  load_path: 'model/m_state_dict_v0.pt'
-  # 0: Train. 1: Test, 2: Get embeddings, 3: OOD Test
+  load_path: 'model/m_state_dict_optimized_v00.pt'
+  # 0: Train. 1: Test, 2: Get embeddings, 3: OOD Test, 4: Optimize embedding space
   model_mode: 3
   num_outputs: 100

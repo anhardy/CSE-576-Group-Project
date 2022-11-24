@@ -18,7 +18,6 @@ def preprocess(data, tokenizer):
     #     numpy.save(f, y_n)
 
     # 0 - 99 are closed set. All OOD considered class 100
-    # TODO CHANGE BACK TO y[y > 99] = 100
     y[y > 99] = 100
     domains = data['product_domain']
 

@@ -3,7 +3,7 @@ import os.path
 from PMAL.get_embeddings import get_embeddings
 from configs.config import Config
 from testing.test import test
-from training.train import train
+from training.train import train, train_optimize
 
 
 def main():
@@ -20,6 +20,8 @@ def main():
 
     elif config.mode == 3:
         test(config, True)
+    elif config.mode == 4:
+        train_optimize(config)
 
 
 if __name__ == '__main__':
