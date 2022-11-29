@@ -26,7 +26,7 @@ def load_candidates(embedding_path, train_data):
         idx = numpy.where(classes == val)[0]
         split = embeddings[idx]
 
-        candidate_path = 'data/PMAL/candidates/per_class_full_cov/indices/indices_class_' + str(val) + '.npy'
+        candidate_path = 'data/PMAL/candidates/indices/indices_class_' + str(val) + '.npy'
 
         with open(candidate_path, 'rb') as f:
             candidates = numpy.load(f)
@@ -57,7 +57,7 @@ def load_candidates_train(train_data):
         truth = truth[idx]
         # truth = numpy.expand_dims(truth, 1)
 
-        candidate_path = 'data/PMAL/candidates/per_class_full_cov/indices/indices_class_' + str(val) + '.npy'
+        candidate_path = 'data/PMAL/candidates/indices/indices_class_' + str(val) + '.npy'
 
         with open(candidate_path, 'rb') as f:
             candidates = numpy.load(f)

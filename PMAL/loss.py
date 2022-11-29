@@ -51,6 +51,7 @@ def distance(sample, p_set, scale):
     # Calculate z_att
     z_a = z_att(sample, p_set, scale)
     # Calculate distance
+    # dist = 1 - numpy.dot(sample, z_a.T) / (numpy.linalg.norm(sample) * numpy.linalg.norm(z_a.T))
     dist = 1 - numpy.sum(sample * z_a, axis=1) / (
             numpy.linalg.norm(sample.T, axis=0) * numpy.linalg.norm(z_a.T, axis=0))
 
@@ -58,6 +59,7 @@ def distance(sample, p_set, scale):
 
 
 def z_att(sample, prototype_set, scale):
-    z = numpy.dot(softmax(numpy.dot(sample, prototype_set.T) / numpy.sqrt(scale), axis=1), prototype_set)
+    z = numpy.dot(softmax(numpy.dot(sample, prototype_set.T) / numpy.sqrt(scale)), prototype_set)
+    # z = numpy.dot(softmax(numpy.dot(sample, prototype_set.T) / numpy.sqrt(scale), axis=1), prototype_set)
 
     return z

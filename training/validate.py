@@ -45,7 +45,7 @@ def validate(model, dataloader, device):
 
 
 def test_ood(model, dataloader, device, dataset, train_set):
-    candidate_embeddings = load_candidates('data/embeddings/train/train_embeddings.npy', train_set)
+    candidate_embeddings = load_candidates('data/PMAL/embeddings/train/train_embeddings.npy', train_set)
     model.eval()
     total_eval_loss = 0
     pred = []
@@ -69,15 +69,18 @@ def test_ood(model, dataloader, device, dataset, train_set):
         prediction = logits.detach().cpu().numpy().argmax(1)
         classes = numpy.unique(prediction)
         prob = softmax(logits).detach().cpu().numpy().max(1)
+
         for pred_class in classes:
             # TODO get embeddings of test samples that predicted this class
-            samples = embedding[numpy.where(prediction==pred_class)]
-            pred_set = prediction[numpy.where(prediction==pred_class)]
-            prob_set = prob[numpy.where(prediction==pred_class)]
+            indices = numpy.where(prediction == pred_class)
+            
+            samples = embedding[indices]
+            pred_set = prediction[indices]
+            prob_set = prob[indices]
             candidate_set = candidate_embeddings[pred_class]
             new_pred_set = reject(samples, pred_set, candidate_set, 5, prob_set, 0.5, 0.5)
-        # sample = numpy.expand_dims(embedding[0], 1)
-        # pred = reject(sample, prediction, candidate_embeddings[pred], 2, prob, 5, 0.5)
+
+            prediction[indices] = new_pred_set
 
         label_ids = b_labels.to('cpu').numpy()
 
