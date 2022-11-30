@@ -22,7 +22,13 @@ def test(config, OOD):
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
     dataset = load(config.test_path, tokenizer, config.pickle_data, False)
-    original_labels = pandas.read_csv('data/ood_test_data_small.csv')['real_label'].values
+    original_dataset = pandas.read_csv('data/stage1_eval_data_ds3.csv')
+    original_labels = original_dataset['real_label'].values
+    authors = original_dataset['author'].values
+    reviews = original_dataset['review'].values
+    products = original_dataset['product_domain'].values
+    overalls = original_dataset['overall'].values
+    num_words = original_dataset['#words'].values
 
     test_dataloader = DataLoader(
         dataset,
@@ -32,6 +38,7 @@ def test(config, OOD):
 
     if OOD:
         train_set = load(config.train_path, tokenizer, config.pickle_data, True)
-        test_f1, test_loss = test_ood(model, test_dataloader, device, original_labels, train_set)
+        test_f1, test_loss = test_ood(model, test_dataloader, device, original_labels, authors, reviews, products,
+                                      overalls, num_words, train_set)
     else:
         test_f1, test_loss = validate(model, test_dataloader, device)
